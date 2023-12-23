@@ -967,7 +967,7 @@ function speechRecognition() {
   recognition = new SpeechRecognition();
   recognition.interimResults = false;
   recognition.maxAlternatives = 1;
-  recognition.continuous = true;
+  recognition.continuous = false;
 
   recognition.onstart = function() {
     console.log("recognition starts");
