@@ -963,7 +963,7 @@ let onspeechTimeout;
 let confidence;
 function speechRecognition() {
   // Initialize SpeechRecognition
-  SpeechRecognition = SpeechRecognition || webkitSpeechRecognition;
+  SpeechRecognition = SpeechRecognition || window.webkitSpeechRecognition;
   recognition = new SpeechRecognition();
             
   recognition.interimResults = false;
