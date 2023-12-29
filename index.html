@@ -22,9 +22,14 @@ body {
   min-height: 100vh;
 }
 
-/* Add media queries for responsiveness */
-@media screen and (max-width: 768px) {
-  /* Adjust styles for mobile view */
+@media (max-width: 768px) {
+  #desktop-content { display: none; }
+  
+}
+
+@media (min-width: 769px) {
+  #desktop-content { display: flex; }
+  
 }
 
 
