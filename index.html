@@ -1202,7 +1202,7 @@ function createCharacterGroups(message) {
   // Create a map from character name to image URL
   // TODO: store image in database and let server send the image url to client.
   const imageMap = {
-    'Raiden Shogun And Ei': 'https://svgshare.com/i/11Pv.svg',
+    'Axis Bank': 'static/AXISBANK.BO_BIG.svg',
    
   };
 
@@ -1228,7 +1228,7 @@ function createCharacterGroups(message) {
       const img = document.createElement('img');
       let src = imageMap[match[2]];
       if (!src) {
-        src = 'https://svgshare.com/i/11Pv.svg';
+        src = 'static/AXISBANK.BO_BIG.svg';
       }
       img.src = src;
 
