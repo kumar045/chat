@@ -1203,14 +1203,8 @@ function createCharacterGroups(message) {
   // Create a map from character name to image URL
   // TODO: store image in database and let server send the image url to client.
   const imageMap = {
-    'Raiden Shogun And Ei': 'https://svgshare.com/i/11ES.svg',
-    'Loki': 'https://svgshare.com/i/11C9.svg',
-    'Ai Character Helper': 'https://i.ibb.co/C2WhNWJ/ai-helper.png',
-    'Reflection Pi': 'https://i.ibb.co/sW8pCnc/pi.jpg',
-    'Elon Musk': 'https://i.ibb.co/2d1MG82/elon.png',
-    'Bruce Wayne': 'https://i.ibb.co/s1jxdVK/bruce.png',
-    'Steve Jobs': 'https://i.ibb.co/YhCDx2d/jobs.png',
-    'Sam Altman': 'https://i.ibb.co/z2PQH3b/sam.png',
+    'Axis Bank': 'https://svgshare.com/i/11Pv.svg',
+   
   };
 
   const radioButtonDiv = document.getElementsByClassName('radio-buttons')[0];
@@ -1235,7 +1229,7 @@ function createCharacterGroups(message) {
       const img = document.createElement('img');
       let src = imageMap[match[2]];
       if (!src) {
-        src = 'static/realchar.svg';
+        src = 'https://svgshare.com/i/11Pv.svg';
       }
       img.src = src;
 
