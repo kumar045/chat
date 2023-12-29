@@ -11,32 +11,13 @@
   justify-content: center;
   align-items: center;
   min-height: 100vh;
-}
-
-/* CSS for mobile warning message and desktop content */
-@media (max-width: 768px) {
-  #desktop-content { display: none; }
-  #mobile-warning { display: block; }
-}
-
-@media (min-width: 769px) {
-  #desktop-content { display: flex; }
-  #mobile-warning { display: none; }
-}
+  }
 
 #desktop-content {
   flex-direction: column;
   justify-content: center;
   align-items: center;
   flex-grow: 1;
-}
-
-#mobile-warning {
-  color:white;
-}
-
-#mobile-warning p {
-  margin-bottom: 10px;
 }
 
 .logo-container {
@@ -649,14 +630,6 @@ input[type="text"]{font: 15px/24px "Lato", Arial, sans-serif; color: white; widt
   <div class="logo-container">
     <img alt="Logo" src="static/logo.svg" />
   </div>
-
-  <!-- Mobile warning message -->
-  <div id="mobile-warning">
-    <p>This assitant is working on a desktop browser.</p> 
-    
-    
-    </div>
-
 
   <!-- Desktop content -->
   <div id="desktop-content">
