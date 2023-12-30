@@ -888,17 +888,38 @@ let debug = false;
 let audioSent = false;
 
 function connectMicrophone(deviceId) {
-  navigator.mediaDevices.getUserMedia({
-    audio: {
-      deviceId: deviceId ? {exact: deviceId} : undefined,
-      echoCancellation: true
-    }
-  }).then(function(stream) {
-    mediaRecorder = new MediaRecorder(stream);
+    // Modern browser or fallback for older browsers
+    var getUserMedia = navigator.mediaDevices && navigator.mediaDevices.getUserMedia
+        ? function(constraints) { return navigator.mediaDevices.getUserMedia(constraints); }
+        : function(constraints) {
+            return new Promise(function(resolve, reject) {
+                var legacyGetUserMedia = navigator.getUserMedia || navigator.webkitGetUserMedia || navigator.mozGetUserMedia;
+                if (!legacyGetUserMedia) {
+                    reject(new Error("getUserMedia is not supported in this browser"));
+                    return;
+                }
+                legacyGetUserMedia.call(navigator, constraints, resolve, reject);
+            });
+        };
 
-    mediaRecorder.ondataavailable = function(e) {
-      chunks.push(e.data);
-    }
+    getUserMedia({
+        audio: {
+            deviceId: deviceId ? { exact: deviceId } : undefined,
+            echoCancellation: true
+        }
+    }).then(function(stream) {
+        mediaRecorder = new MediaRecorder(stream);
+
+        mediaRecorder.ondataavailable = function(e) {
+            chunks.push(e.data);
+        };
+
+        // Add other event handlers or operations as needed
+    }).catch(function(error) {
+        console.error("Error in getUserMedia:", error);
+        // Handle the error
+    });
+
 
     mediaRecorder.onstart = function() {
       console.log("recorder starts");
