@@ -887,7 +887,7 @@ let finalTranscripts = [];
 let debug = false;
 let audioSent = false;
 
-function connectMicrophone(deviceId, debug, socket, callActive, audioSent) {
+function connectMicrophone(deviceId) {
   // Get the getUserMedia function in a cross-browser compatible way
   const getUserMedia = navigator.getUserMedia || navigator.webkitGetUserMedia || navigator.mozGetUserMedia;
 
@@ -942,8 +942,6 @@ function connectMicrophone(deviceId, debug, socket, callActive, audioSent) {
         }
       }
     };
-
-    // Add any additional MediaRecorder setup here, e.g., mediaRecorder.start()
 
   }).catch(function(error) {
     console.error("Error in getUserMedia: ", error);
