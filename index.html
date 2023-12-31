@@ -891,8 +891,10 @@ let audioSent = false;
 function connectMicrophone(deviceId) {
   navigator.mediaDevices.getUserMedia({
     audio: {
-      audio: true
+      deviceId: deviceId ? {exact: deviceId} : undefined,
+      echoCancellation: true
     }
+    
   }).then(function(stream) {
     mediaRecorder = new MediaRecorder(stream);
 
