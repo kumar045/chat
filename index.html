@@ -893,10 +893,11 @@ function connectMicrophone(deviceId) {
   // Call getUserMedia with 'navigator' as the context
   getUserMedia.call(navigator, {
     audio: {
-      deviceId: deviceId ? {exact: deviceId} : undefined,
+      deviceId: deviceId ? { exact: deviceId } : undefined,
       echoCancellation: true
     }
-  }).then(function(stream) {
+  })
+  .then(function(stream) {
     // Initialize MediaRecorder with the stream
     const mediaRecorder = new MediaRecorder(stream);
     const chunks = []; // Initialize chunks array
@@ -905,32 +906,26 @@ function connectMicrophone(deviceId) {
     mediaRecorder.ondataavailable = function(e) {
       chunks.push(e.data);
     };
-// Other code for mediaRecorder (like start, stop, etc.)
-  }).catch(function(error) {
-    console.error("Error in getUserMedia: ", error);
-  });
-}
 
-
-
+    // Event listeners for MediaRecorder
     mediaRecorder.onstart = function() {
       console.log("recorder starts");
-    }
+    };
 
     mediaRecorder.onstop = function(e) {
       console.log("recorder stops");
-      let blob = new Blob(chunks, {'type' : 'audio/webm'});
+      let blob = new Blob(chunks, { 'type': 'audio/webm' });
       chunks = [];
 
       if (debug) {
-          // Save the audio
-          let url = URL.createObjectURL(blob);
-          let a = document.createElement("a");
-          document.body.appendChild(a);
-          a.style = "display: none";
-          a.href = url;
-          a.download = 'test.webm';
-          a.click();
+        // Save the audio (debugging)
+        let url = URL.createObjectURL(blob);
+        let a = document.createElement("a");
+        document.body.appendChild(a);
+        a.style = "display: none";
+        a.href = url;
+        a.download = 'test.webm';
+        a.click();
       }
 
       if (socket && socket.readyState === WebSocket.OPEN) {
@@ -943,10 +938,12 @@ function connectMicrophone(deviceId) {
           mediaRecorder.start();
         }
       }
-    }
+    };
+
+   
   })
-  .catch(function(err) {
-    console.log('An error occurred: ' + err);
+  .catch(function(error) {
+    console.error("Error in getUserMedia: ", error);
   });
 }
 
