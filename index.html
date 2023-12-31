@@ -888,18 +888,31 @@ let debug = false;
 let audioSent = false;
 
 function connectMicrophone(deviceId) {
-  getUserMedia = navigator.getUserMedia || navigator.webkitGetUserMedia || navigator.mozGetUserMedia;
-  getUserMedia({
+  // Get the getUserMedia function in a cross-browser compatible way
+  const getUserMedia = navigator.getUserMedia || navigator.webkitGetUserMedia || navigator.mozGetUserMedia;
+
+  // Call getUserMedia with 'navigator' as the context
+  getUserMedia.call(navigator, {
     audio: {
       deviceId: deviceId ? {exact: deviceId} : undefined,
       echoCancellation: true
     }
   }).then(function(stream) {
-    mediaRecorder = new MediaRecorder(stream);
+    // Initialize MediaRecorder with the stream
+    const mediaRecorder = new MediaRecorder(stream);
+    const chunks = []; // Initialize chunks array
 
+    // Handle the data available event
     mediaRecorder.ondataavailable = function(e) {
       chunks.push(e.data);
-    }
+    };
+
+    // Other code for mediaRecorder (like start, stop, etc.)
+  }).catch(function(error) {
+    console.error("Error in getUserMedia: ", error);
+  });
+}
+
 
 
     mediaRecorder.onstart = function() {
