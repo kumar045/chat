@@ -886,46 +886,38 @@ let chunks = [];
 let finalTranscripts = [];
 let debug = false;
 let audioSent = false;
-function connectMicrophone(deviceId) {
-  // Get the getUserMedia function in a cross-browser compatible way
-  const getUserMedia = navigator.getUserMedia || navigator.webkitGetUserMedia || navigator.mozGetUserMedia;
 
-  // Call getUserMedia with 'navigator' as the context
-  getUserMedia.call(navigator, {
+function connectMicrophone(deviceId) {
+  navigator.mediaDevices.getUserMedia({
     audio: {
-      deviceId: deviceId ? { exact: deviceId } : undefined,
+      deviceId: deviceId ? {exact: deviceId} : undefined,
       echoCancellation: true
     }
-  })
-  .then(function(stream) {
-    // Initialize MediaRecorder with the stream
-    const mediaRecorder = new MediaRecorder(stream);
-    const chunks = []; // Initialize chunks array
+  }).then(function(stream) {
+    mediaRecorder = new MediaRecorder(stream);
 
-    // Handle the data available event
     mediaRecorder.ondataavailable = function(e) {
       chunks.push(e.data);
-    };
+    }
 
-    // Event listeners for MediaRecorder
     mediaRecorder.onstart = function() {
       console.log("recorder starts");
-    };
+    }
 
     mediaRecorder.onstop = function(e) {
       console.log("recorder stops");
-      let blob = new Blob(chunks, { 'type': 'audio/webm' });
+      let blob = new Blob(chunks, {'type' : 'audio/webm'});
       chunks = [];
 
       if (debug) {
-        // Save the audio (debugging)
-        let url = URL.createObjectURL(blob);
-        let a = document.createElement("a");
-        document.body.appendChild(a);
-        a.style = "display: none";
-        a.href = url;
-        a.download = 'test.webm';
-        a.click();
+          // Save the audio
+          let url = URL.createObjectURL(blob);
+          let a = document.createElement("a");
+          document.body.appendChild(a);
+          a.style = "display: none";
+          a.href = url;
+          a.download = 'test.webm';
+          a.click();
       }
 
       if (socket && socket.readyState === WebSocket.OPEN) {
@@ -938,12 +930,10 @@ function connectMicrophone(deviceId) {
           mediaRecorder.start();
         }
       }
-    };
-
-   
+    }
   })
-  .catch(function(error) {
-    console.error("Error in getUserMedia: ", error);
+  .catch(function(err) {
+    console.log('An error occurred: ' + err);
   });
 }
 
