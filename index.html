@@ -887,36 +887,40 @@ let finalTranscripts = [];
 let debug = false;
 let audioSent = false;
 function connectMicrophone(deviceId) {
-  // Define the constraints for getUserMedia
-  const constraints = {
+  // Get the getUserMedia function in a cross-browser compatible way
+  const getUserMedia = navigator.getUserMedia || navigator.webkitGetUserMedia || navigator.mozGetUserMedia;
+
+  // Call getUserMedia with 'navigator' as the context
+  getUserMedia.call(navigator, {
     audio: {
-      deviceId: deviceId ? { exact: deviceId } : undefined,
+      deviceId: deviceId ? {exact: deviceId} : undefined,
       echoCancellation: true
     }
-  };
+  }).then(function(stream) {
+    // Initialize MediaRecorder with the stream
+    const mediaRecorder = new MediaRecorder(stream);
+    const chunks = []; // Initialize chunks array
 
-  // Call getUserMedia with the constraints
-  navigator.mediaDevices.getUserMedia(constraints)
-    .then(function(stream) {
-      // Initialize MediaRecorder with the stream
-      const mediaRecorder = new MediaRecorder(stream);
-      let chunks = []; // Initialize chunks array
+    // Handle the data available event
+    mediaRecorder.ondataavailable = function(e) {
+      chunks.push(e.data);
+    };
+// Other code for mediaRecorder (like start, stop, etc.)
+  }).catch(function(error) {
+    console.error("Error in getUserMedia: ", error);
+  });
+}
 
-      // Handle the data available event
-      mediaRecorder.ondataavailable = function(e) {
-        chunks.push(e.data);
-      };
 
-      // Handle the start event
-      mediaRecorder.onstart = function() {
-        console.log("Recorder starts");
-      };
 
-      // Handle the stop event
-      mediaRecorder.onstop = function() {
-        console.log("Recorder stops");
-        let blob = new Blob(chunks, {'type' : 'audio/webm'});
-        chunks = [];
+    mediaRecorder.onstart = function() {
+      console.log("recorder starts");
+    }
+
+    mediaRecorder.onstop = function(e) {
+      console.log("recorder stops");
+      let blob = new Blob(chunks, {'type' : 'audio/webm'});
+      chunks = [];
 
       if (debug) {
           // Save the audio
