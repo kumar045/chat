@@ -952,7 +952,7 @@ let onspeechTimeout;
 let confidence;
 function speechRecognition() {
   // Initialize SpeechRecognition
-  window.SpeechRecognition = window.webkitSpeechRecognition;
+  window.SpeechRecognition = window.SpeechRecognition || window.webkitSpeechRecognition;
   recognition = new SpeechRecognition();
             
   recognition.interimResults = false;
