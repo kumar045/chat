@@ -7,15 +7,7 @@
   <title>Jarvis. - Realtime AI Assistant</title>
   <style>
 	  
-  #desktop-content {
-  flex-direction: column;
-  justify-content: center;
-  align-items: center;
-  flex-grow: 1;
-}
-
-/* Ensure that body takes full width and centers content */
-body {
+  body {
   background-color: #02081d;
   display: flex;
   flex-direction: column;
@@ -24,14 +16,26 @@ body {
   min-height: 100vh;
 }
 
+/* CSS for mobile warning message and desktop content */
 @media (max-width: 768px) {
   #desktop-content { display: none; }
-  
+  #mobile-warning { display: block; }
 }
 
 @media (min-width: 769px) {
   #desktop-content { display: flex; }
-  
+  #mobile-warning { display: none; }
+}
+
+#desktop-content {
+  flex-direction: column;
+  justify-content: center;
+  align-items: center;
+  flex-grow: 1;
+}
+
+#mobile-warning {
+  color:white;
 }
 
 
