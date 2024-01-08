@@ -2,8 +2,6 @@
 <html>
 
 <head>
-
-  <script src="/static/adapter-latest.js"></script>
   <title>Jarvis. - Realtime AI Assistant</title>
   <style>
 	  
@@ -19,12 +17,12 @@
 /* CSS for mobile warning message and desktop content */
 @media (max-width: 768px) {
   #desktop-content { display: none; }
-  #mobile-warning { display: block; }
+  #mobile-warning { display: none; }
 }
 
 @media (min-width: 769px) {
   #desktop-content { display: flex; }
-  #mobile-warning { display: none; }
+  #mobile-warning { display: flex; }
 }
 
 #desktop-content {
