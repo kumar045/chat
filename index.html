@@ -735,7 +735,59 @@ const disconnectButton = document.getElementById('disconnect');
 const devicesContainer = document.getElementById('devices-container');
 let socket;
 let clientId = Math.floor(Math.random() * 10000000);
+// State variables
+let recorderActive = false; 
+let recognitionActive = false;
 
+// Start recording
+function startRecording() {
+
+  if(!recorderActive) {
+    mediaRecorder.start();
+    recorderActive = true;
+  }
+
+}
+
+// Stop recording 
+function stopRecording() {
+
+  if(recorderActive) {
+    mediaRecorder.stop();
+    recorderActive = false;  
+  }
+
+  if(!recognitionActive) {
+    recognition.start();
+    recognitionActive = true;
+  }
+
+}
+
+// Start recognition
+function startRecognition() {
+
+  if(!recognitionActive) {
+    recognition.start();
+    recognitionActive = true;
+  }
+
+}
+
+// Stop recognition
+function stopRecognition() {
+
+  if(recognitionActive) {
+    recognition.stop();
+    recognitionActive = false;
+  }
+
+  if(!recorderActive) {
+    mediaRecorder.start();
+    recorderActive = true;
+  }
+
+}
 function connectSocket() {
   chatWindow.value = "";
   var clientId = Math.floor(Math.random() * 1010000);
