@@ -862,10 +862,10 @@ disconnectButton.addEventListener("click", function() {
     destroyRadioGroups();
   }
   if (mediaRecorder) {
-    mediaRecorder.stop();
+    stopRecording()
   }
   if (recognition) {
-    recognition.stop();
+    stopRecognition()
   }
   textContainer.textContent = "";
   disconnectButton.style.display = "none";
@@ -979,7 +979,7 @@ function connectMicrophone(deviceId) {
         }
         audioSent = false;
         if (callActive) {
-          mediaRecorder.start();
+          startRecording()
         }
       }
     }
@@ -1040,7 +1040,7 @@ function speechRecognition() {
     }, 500); // 500 ms
 
     onspeechTimeout = setTimeout(() => {
-      recognition.stop();
+      stopRecognition()
     }, 2000); // 2 seconds
   }
 
@@ -1049,7 +1049,7 @@ function speechRecognition() {
 
     if (socket && socket.readyState === WebSocket.OPEN){
       audioSent = true;
-      mediaRecorder.stop();
+      stopRecording()
       if (confidence > 0.8 && finalTranscripts.length > 0) {
         console.log("send final transcript");
         let message = finalTranscripts.join(' ');
@@ -1065,7 +1065,7 @@ function speechRecognition() {
   recognition.onend = function() {
     console.log("recognition ends");
     if (socket && socket.readyState === WebSocket.OPEN && callActive){
-      recognition.start();
+      startRecognition()
     }
   };
 }
@@ -1107,8 +1107,8 @@ stopCallButton.addEventListener("click", () => {
   continueCallButton.style.display = "flex";
 
   callActive = false;
-  mediaRecorder.stop();
-  recognition.stop();
+  stopRecording()
+  stopRecognition()
   stopAudioPlayback();
   showRecordingStatus();
 })
@@ -1118,8 +1118,8 @@ continueCallButton.addEventListener("click", () => {
   continueCallButton.style.display = "none";
   soundWave.style.display = "flex";
 
-  mediaRecorder.start();
-  recognition.start();
+  startRecording()
+  startRecognition()
   callActive = true;
   showRecordingStatus();
 });
@@ -1149,8 +1149,8 @@ talkButton.addEventListener("click", function() {
     socket.send(selectedCharacter);
     hideOtherCharacters();
 
-    mediaRecorder.start();
-    recognition.start();
+    startRecording()
+    startRecognition()
     callActive = true;
     showRecordingStatus();
   }
